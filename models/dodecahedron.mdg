@@ -1,0 +1,89 @@
+uniform lightPos 0 0 -400
+uniform specColor 1 1 1
+uniform phongPower 40
+background 0.4 0.6 0.8 1
+
+startshape START
+minsize 0.0015
+duration 60
+
+maxiter 4000
+maxdepth 1000
+
+linerule LINERULE
+camerarule CAMERARULE
+
+normal 0 0 1
+angle orbits
+
+rule CAMERARULE {
+  FRAME{z -74}
+  CAMERARULE {}
+}
+
+rule LINERULE {
+  12/12*{rx 1} VERTEX{z 0.1}
+}
+
+isosurface SPHERE {
+  xyz -1 1 6
+  function {1.0 - (x*x+y*y+z*z)}
+}
+
+// a = 4*r/(3+sqrt(5))
+// r = 1          =>  a = 4/(3+sqrt(5))           = .7639320224
+rule PVERTEX{
+  VERTEX{ry -0.7639320227t z 10}
+}
+
+rule pentagon{
+  NEWLINE{}
+  PVERTEX{}
+  PVERTEX{rz 0.2}
+  PVERTEX{rz 0.4}
+  FACENORMALS{}
+  PVERTEX{rz 0.4}
+  PVERTEX{rz 0.6}
+  PVERTEX{rz 0.8}
+  FACENORMALS{}
+  PVERTEX{}
+  PVERTEX{rz 0.8}
+  PVERTEX{rz 0.4}
+  FACENORMALS{}
+}
+
+rule START{
+  dodecahedron{s 2 B 0.4 R 0.6 G 0.8}
+  symplanes{s 2 G 0.8 R 1}
+}
+
+rule dodecahedron {
+  dodec_faces{fz}
+  5/5*{rx 1} dodec_faces{ry -2t}
+}
+
+rule dodec_faces {
+  pentagon{ry -0.25}
+  pentagon{ry 0.25}
+}
+
+rule symplanes {
+  5/5*{rx 1} dihedral{}
+}
+
+rule dihedral {
+  circle{fz}
+  1*{ry -2t} 2/5*{rx 1} circle{}
+}
+
+rule circle {
+  SPHERE{ry 0.25 z 10 B 0.8 G -0.4 R -0.8 s 0.6}
+  SPHERE{ry -0.25 z 10 B 0.8 G -0.4 R -0.8 s 0.6}
+  torus{}
+}
+
+rule torus {
+  NEWLINE{}
+  MOVETO{z 10}
+  48/48*{ry 1} LINETO{z 10}
+}

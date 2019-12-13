@@ -1,0 +1,123 @@
+// Magic numbers
+// 2  = 1*2
+// 8  = 1*2 + 2*3
+// 20 = 1*2 + 2*3 + 3*4
+// 40 = 1*2 + 2*3 + 3*4 + 4*5
+// 70 = 1*2 + 2*3 + 3*4 + 4*5 + 5*6
+
+// 2, 8, 20, 28, 50, 82, 126
+// 2, 8, 20, 40, 70, 112, 186
+
+startshape START
+// duration 60
+hashsize 2048
+cellsize 1
+
+linerule LINERULE
+camerarule CAMERARULE
+linerule LINERULE
+// cameramode ortho
+// camerafov 3.5
+maxdepth 20
+// maxiter 2
+
+background 1 1 1
+center
+
+isosurface SPHERE {
+  xyz -1 1 6
+  function {1.0 - (x*x+y*y+z*z)}
+}
+
+rule CAMERARULE {
+  FRAME{rx -90 z -3.5}
+  CAMERARULE {}
+}
+rule LINERULE {
+  6/6*[rz 360] VERTEX{x 0.1 G 0.3 R 0.3 B 0.3}
+}
+
+// selector TETRAHEDRA hash
+selector PARTICLE hash
+//selector RECURSE function {sqrt(x*x+y*y+z*z)}
+selector RECURSE hash
+selector RECURSE_X depth
+selector RECURSE_Y depth
+selector RECURSE_Z depth
+selector _RECURSE depth
+
+
+rule PARTICLE 0 {
+
+  SPHERE{s 0.5}
+  HASH{}
+
+  // 1*{j 1} {}
+  // writeln "%0j : %x %y %z"
+}
+rule PARTICLE 10000 {
+}
+
+rule _RECURSE 6 {
+  TETRAHEDRA{}
+  RECURSE{}
+}
+rule _RECURSE 10000 {}
+
+rule RECURSE 0 {
+  HASH{}
+  _RECURSE{fz z 2}
+  _RECURSE{fz z -2}
+  _RECURSE{fx x 2}
+  _RECURSE{fx x -2}
+  _RECURSE{fy y 2}
+  _RECURSE{fy y -2}
+}
+rule RECURSE 100000 {}
+
+rule EDGE {
+  MOVETO{}
+  SLINETO{x 1 1 1}
+}
+
+rule PROTON {
+  EDGE{R 0.7 G 0.7 B 0.7}
+  PARTICLE{x 1 1 1 R 1}
+}
+
+rule NEUTRON {
+  EDGE{R 0.7 G 0.7 B 0.7}
+  PARTICLE{x 1 1 1 B 1}
+}
+
+rule TETRAHEDRA {
+  // spin up proton
+  PROTON{}
+  // spin down proton
+  PROTON{fx fy}
+  // spin up neutron
+  NEUTRON{fx fz}
+  // spin down neutron
+  NEUTRON{fy fz}
+
+  // generate tetrahedras recursively
+  // RECURSE_X{}
+}
+
+rule START {
+  DRAWAXES{}
+  RECURSE{}
+}
+
+rule DRAWAXIS {
+  MOVETO{z -10 s 0.05}
+  LINETO{z -10}
+  LINETO{z 10}
+  LINETO{z 10 s 2.3}
+  LINETO{z 11.2 s 0.05}  
+}
+rule DRAWAXES {
+  DRAWAXIS{ry 90 R 1}
+  DRAWAXIS{rz 90 ry 90 G 1}
+  DRAWAXIS{B 1}
+}

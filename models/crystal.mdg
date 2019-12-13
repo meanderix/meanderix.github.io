@@ -1,0 +1,177 @@
+uniform lightPos 0 -500 -400
+uniform specColor 1 1 1
+uniform phongPower 40
+
+startshape START
+minsize 0.015
+duration 60
+
+hashsize 8192
+cellsize 0.5
+
+linerule LINERULE
+camerarule CAMERARULE
+cameramode ortho
+camerafov 18
+
+normal 1 0 0
+//angle orbits
+background 1 1 1 1
+
+// helper functions
+
+rule CAMERARULE {
+  FRAME{z -30}
+  CAMERARULE {}
+}
+
+rule LINERULE {
+  4/4*[rz 360] VERTEX{x 0.1 G 0.8 R 0.8 B 0.8}
+}
+
+isosurface SPHERE {
+  xyz -1 1 6
+  function {1.0 - (x*x+y*y+z*z)}
+}
+
+// [IMPLEMENTATION]
+
+//selector SILICON function {sqrt(x*x+y*y+z*z)}
+//selector OXYGEN function {sqrt(x*x+y*y+z*z)}
+
+rule SILICON {
+  HASH{}
+  SPHERE{s 0.5 R 0.5 G 0.5 B 0.5}
+}
+
+
+rule OXYGEN {
+  HASH{}
+  LINETO{}
+  SPHERE{s 0.4 R 1 G 0.2 B 0.2}
+  MOVETO{}
+  //SPHERE{s 0.2 R 1}
+  //Q.MOVETO{}
+}
+
+selector Q.SILICON distance
+rule Q.SILICON 0.1 {}
+rule Q.SILICON 1000 {
+  // the s parameter adjusts the scale
+  HASH{}
+  //print {}
+  //LINETO{}
+  //SPHERE{s 0.6 R 0.5 G 0.5 B 0.5}
+  SPHERE{s 0.6 B 1}
+}
+rule HYDROGEN {
+  HASH{}
+  SLINETO{}
+  SPHERE{s 0.4 R 1 G 1 B 1}
+}
+
+
+
+selector SiO4_A function {sqrt(x*x+y*y+z*z)}
+selector SiO4_B function {sqrt(x*x+y*y+z*z)}
+selector SiO4_C function {sqrt(x*x+y*y+z*z)}
+
+rule SiO4_A 15 {
+  1*{x   -1.30154   -6.25418   -7.20531} {
+    //Q.MOVETO{x   1.30154   6.25418   7.20531}
+    SILICON{x   1.30154   6.25418   7.20531}
+    MOVETO{x   1.30154   6.25418   7.20531}
+    OXYGEN{x   0.78279   4.87750   7.84783 }
+    MOVETO{x   1.30154   6.25418   7.20531}
+    OXYGEN{x   0.29695   6.74767   6.04655 }
+    MOVETO{x   1.30154   6.25418   7.20531}
+    OXYGEN{x   2.75315   6.01509   6.56244 }
+    MOVETO{x   1.30154   6.25418   7.20531}
+    OXYGEN{x   1.37645   7.37092   8.36372 }
+  }
+}
+rule SiO4_A 1000 {}
+
+rule SiO4_B 15 {
+  1*{x   -3.75773   -6.50858   -5.40403} {
+    //Q.MOVETO{x   3.75773   6.50858   5.40403}
+    SILICON{x   3.75773   6.50858   5.40403}
+    MOVETO{x   3.75773   6.50858   5.40403}
+	  OXYGEN{x   2.75315   6.01509   6.56244 }
+    MOVETO{x   3.75773   6.50858   5.40403}
+    OXYGEN{x   3.83265   5.39184   4.24526 }
+    MOVETO{x   3.75773   6.50858   5.40403}
+    OXYGEN{x   3.23898   7.88526   4.76115 }
+    MOVETO{x   3.75773   6.50858   5.40403}
+    OXYGEN{x   5.20934   6.74767   6.04655 }
+  }
+}
+rule SiO4_B 1000 {}
+
+rule SiO4_C 15 {
+  1*{x   -4.76551   -4.25425   -3.60275} {
+    //Q.MOVETO{x   4.76551   4.25425   3.60275}
+    SILICON{x   4.76551   4.25425   3.60275}
+    MOVETO{x   4.76551   4.25425   3.60275}
+    OXYGEN{x   3.83265   3.11667   2.95987 }
+    MOVETO{x   4.76551   4.25425   3.60275}
+    OXYGEN{x   5.69518   3.63101   4.76115 }
+    MOVETO{x   4.76551   4.25425   3.60275}
+    OXYGEN{x   5.69518   4.87750   2.44398 }
+    MOVETO{x   4.76551   4.25425   3.60275}
+    OXYGEN{x   3.83265   5.39184   4.24526 }
+  }
+}
+rule SiO4_C 1000 {}
+
+
+rule QUARTZ {
+  SiO4_A{x   1.30154   6.25418   7.20531}
+  SiO4_B{x   3.75773   6.50858   5.40403}
+  SiO4_C{x   4.76551   4.25425   3.60275}
+
+  MOVETO{x  5.69518   4.87750   2.443986  x   -0.78279   -4.87750   -7.84783}
+}
+
+rule XXX {
+  SPHERE{s 0.6 B 1}
+}
+
+rule QLAYERS {
+
+  1 * {x -20 y 28 z 13} {
+    12*{y -4.25 x 2.45} {
+      12*[rx -120 x -4.91239 rx 120] {
+        8 * {} \ QUARTZ{}
+      }
+    }
+  }
+}
+
+
+
+
+//selector SiC function { max(x,y,z) }
+// face-edge-face angle: 70.5288 degrees
+rule SiC {
+  1 * {z 1.611} {
+    MOVETO{}
+    OXYGEN{z -1.611}
+    SILICON{}
+    3*{rz 120} 1*{ry 70.5288} {
+      MOVETO{}
+      OXYGEN{z 1.611}
+    }
+  }
+}
+
+
+rule START {
+  SiC{} \
+  SiC{ry -70.5288} \
+  SiC{ry -70.5288}
+  
+  QUARTZ{B 1}
+  // QLAYERS{}
+  // QLAYERS{u 1}
+}

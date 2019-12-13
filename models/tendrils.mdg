@@ -1,0 +1,78 @@
+uniform lightPos 0 0 -400
+uniform specColor 1 1 1
+uniform phongPower 40
+
+startshape START
+minsize 0.05
+
+linerule LINERULE
+camerarule CAMERARULE
+duration 60
+
+rule LINERULE {
+  8/8*[rz -360] VERTEX{x -1}
+}
+
+rule CAMERARULE {
+  FRAME{z -30}
+}
+
+rule START:transform{
+  TENDRILS{R 0.25 G 0.7 B 0.2}
+}
+
+rule transform {
+  FRAME{}
+  transform{rz 1}
+}
+
+rule TENDRILS{
+  MOVETO {}
+  ARM{ry -30}
+  MOVETO {}
+  ARM{rz 180}
+  MOVETO {}
+  ARM{rz 180 rx 135 ry 45}
+  MOVETO {}
+  ARM{rx 135}
+  MOVETO {}
+  ARM{rz 45 rx -35}
+  MOVETO {}
+  ARM{rz 145 ry -85}
+  MOVETO {}
+  ARM{rz 245 ry 35 rx 40}
+}
+rule ARM 98 {
+  LINETO{z 0.2 s 0.99 rx 3 R 0.0075} \
+  ARM {}
+}
+rule ARM 2 {
+  LINETO {z 0.2 s 0.99} \
+  RARM {}
+  MOVETO {}
+  ARM {z 0.2 s 0.6}
+}
+rule ARM 3 {
+  LINETO {z 0.2 rx 2} \
+  ARM {}
+}
+rule RARM 2{
+  MOVETO{rz 180} \
+  ARM{}
+}
+rule RARM{
+  MOVETO{rz 120} \
+  ARM{}
+}
+rule RARM{
+  MOVETO{rz 60} \
+  ARM{}
+}
+rule RARM{
+  MOVETO{rz -120} \
+  ARM{}
+}
+rule RARM{
+  MOVETO{rz -60} \
+  ARM{}
+}

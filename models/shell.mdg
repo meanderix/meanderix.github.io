@@ -1,0 +1,31 @@
+
+startshape START
+minsize 0.0015
+duration 60
+background 0.5 0.7 0.4 1
+center
+
+linerule LINERULE
+camerarule CAMERARULE
+
+rule LINERULE {
+  12/12*[rz -360] VERTEX{x -2.5}
+}
+
+rule CAMERARULE {
+  FRAME{rx -60 z -5}
+  CAMERARULE {}
+}
+
+rule START{
+  shell{y 5 R 0.4 G 0.1 rx -40}
+}
+
+rule shell:transform {
+  3000*{ry 3 s 0.998 z 0.5 y -0.03 R 0.0005 G 0.002 B 0.001} LINETO{}
+}
+
+rule transform{
+  FRAME{}
+  transform{ry -1}
+}

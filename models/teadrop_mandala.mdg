@@ -1,0 +1,14 @@
+startshape B
+background {b -.85}
+
+rule A {
+  75*{y .1 s .9 r 3} CIRCLE { }
+  75*{y .1 s .9 r 3 b .15 } CIRCLE {s .9 b .6 sat .8 h 230 }
+}
+
+rule B {
+  A {}
+  A {x 1 h - 60}
+  A {s .3 h 100 b -.2}
+  B {s .985 r -29.1 x 2}
+}

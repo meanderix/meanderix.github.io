@@ -1,0 +1,56 @@
+uniform lightPos 0 0 -400
+uniform specColor 1 1 1
+uniform phongPower 40
+  
+function sphere {
+  1.0 - (x*x+y*y+z*z)
+}
+
+@macro SPHERE_LOD(SIZE,RES)
+isosurface SPHERE(RES) {
+  xyz -1 1 (RES)
+  function sphere
+}
+rule SPHERE (SIZE) {
+  SPHERE(RES) {}
+}
+@endmacro
+
+@expand SPHERE_LOD(0.02,2)
+@expand SPHERE_LOD(0.04,3)
+@expand SPHERE_LOD(0.08,4)
+@expand SPHERE_LOD(0.2,5)
+@expand SPHERE_LOD(0.6,6)
+@expand SPHERE_LOD(10,9)
+selector SPHERE scale
+
+startshape start
+minsize 0.01
+camerarule CAMERARULE
+duration 60
+
+rule CAMERARULE {
+  FRAME{z -6}
+  CAMERARULE {}
+}
+
+rule start : transform {
+  origin{}
+}
+rule origin {
+  SPHERE{R 1.5 G 0.75}
+  3*{r 90 0 90}plane{s 0.6666}
+}
+rule plane{
+  next{z 1.618033988 y 1 }
+  next{z 1.618033988 y -1 }
+  next{z -1.618033988 y 1 }
+  next{z -1.618033988 y -1 }
+}
+rule next{
+  origin{s 0.5}
+}
+rule transform {
+  FRAME{}
+  transform{ry 0.2}
+}

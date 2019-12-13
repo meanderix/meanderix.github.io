@@ -1,0 +1,115 @@
+uniform lightPos 0 -500 -400
+uniform specColor 1 1 1
+uniform phongPower 40
+
+startshape START
+minsize 0.015
+duration 120
+
+center
+
+linerule LINERULE
+camerarule CAMERARULE
+// uncomment for orthographic projection:
+//cameramode ortho
+//camerafov 8
+
+normal 1 0 0
+//angle orbits
+background 1 1 1 1
+
+// helper functions
+
+rule CAMERARULE {
+  FRAME{z -4}
+  CAMERARULE {}
+}
+
+rule LINERULE {
+  6/6*[rz 360] VERTEX{x 0.05 G 0.8 R 0.8 B 0.8}
+}
+
+isosurface SPHERE {
+  xyz -1 1 5
+  function {1.0 - (x*x+y*y+z*z)}
+}
+
+rule TRANSFORM {
+  FRAME{} \  
+  180/180 * [ry 90] FRAME{} \
+  60 * {} FRAME{} \
+  180/180 * [ry 90] FRAME{} \
+  60 * {} FRAME{} \
+  180/180 * [ry 90] FRAME{} \
+  60 * {} FRAME{} \
+  180/180 * [ry 90] FRAME{} \
+  60 * {} FRAME{} \
+  180/180 * {rx -90} FRAME{} \ 
+  60 * {} FRAME{} \  
+  180/180 * {rz 60} FRAME{} \ 
+  60 * {} FRAME{} \  
+  180/180 * {rz 60} FRAME{} \ 
+  60 * {} FRAME{} \  
+  180/180 * {rz 60} FRAME{} \ 
+  60 * {} FRAME{} \  
+  180/180 * {rz 60} FRAME{} \ 
+  60 * {} FRAME{} \  
+  180/180 * {rz 60} FRAME{} \
+  60 * {} FRAME{} \  
+  180/180 * {rz 60} FRAME{} \  
+  60 * {} FRAME{} \  
+  180/180 * {rx 90} FRAME{} 
+}
+//------------------------------------------------------------------------------
+
+rule SILICON {
+  // the 's' parameter adjusts the scale
+  SPHERE{s 0.2 s 1.17 G 0.8}
+}
+
+// Carbon, 0.25 * (0.077/0.117)
+rule CARBON {
+  // the 'R', 'G', 'B' parameters adjust the color
+  SPHERE{s 0.2 s 0.77 R 0.2 G 0.2 B 0.2}
+}
+
+selector BOND sequential
+rule BOND {
+  MOVETO{}
+  LINETO{z 1}
+}
+//selector SiC function { max(x,y,z) }
+// face-edge-face angle: 70.5288 degrees
+rule SiC {
+  CARBON{z -1}
+  BOND{z -1}
+  SILICON{}
+  3*{rz 120} 1*{ry 70.5288} {
+    CARBON{z 1}
+    BOND{}
+  }
+  // move to the right position for the next SiC
+  MOVETO{z 1 ry 70.5288 z 1 ry -70.5288}
+}
+
+rule ABCB {
+  SiC {} \     // A
+  SiC {} \     // B
+  SiC {fx} \   // C (flip x axis)
+  SiC {} \     // B
+  MOVETO{fx}   // (flip x axis -- for the next ABCB)
+}
+
+rule LAYERS {
+  // height of pyramid: sqrt(6)/3 = 0.8164965809
+  // height of two pyramids: 2*sqrt(6)/3 = 1.632993162
+  // edge-to-opposite-edge x 2: sqrt(2) = 1.414213562
+  // 4 repetitions along the [1120] direction
+  // 3 repetitions along the [1100] direction
+  // 2 repetitions along the [0001] direction
+  4 * {x 1.414213562 y 0.8164965809} 3 * {y 1.632993162} 2 * {} \ ABCB{}
+}
+
+rule START : TRANSFORM {
+  LAYERS{x -4 y -6 z -4}  // adjust the origin
+}

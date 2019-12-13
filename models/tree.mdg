@@ -1,0 +1,47 @@
+startshape START
+minsize 0.06
+linerule LINERULE
+camerarule CAMERARULE
+duration 60
+
+rule LINERULE {
+  8/8*[rz 360] VERTEX{x 1}
+}
+
+rule CAMERARULE {
+  FRAME{z -30 y -8}
+}
+
+rule START {
+  TREE {rx 90 R 0.6 G 0.3 B 0.2}
+}
+
+rule TREE 0.9 {
+  LINETO {}
+  TREE { z 1.8 ry 25 s 0.9 G 0.05}
+  MOVETO{}
+  TREE { z 1.8 ry -25 s 0.9 G 0.05}
+  MOVETO {}
+}
+
+rule TREE 0.5 {
+  TREE{rz 23}
+}
+rule TREE 0.5 {
+  TREE{rz 90}
+}
+rule TREE 0.5 {
+  TREE{rz -90}
+}
+rule TREE 0.5 {
+  LINETO {}
+  TREE { z 1.8 ry 30 s 0.9 }
+  MOVETO {}
+}
+rule TREE 0.5 {
+  LINETO {}
+  TREE { z 1.8 ry -30 s 0.9 }
+  MOVETO {}
+}
+
+rule TREE 0.1 {}

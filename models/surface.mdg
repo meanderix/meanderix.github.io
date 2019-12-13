@@ -1,0 +1,31 @@
+uniform lightPos 0 0 -400
+uniform specColor 1 1 1
+uniform phongPower 44
+
+duration 60
+
+startshape start
+camerarule camera
+
+normal 0 0 1
+
+isosurface fxy{
+  x -8 8 40
+  y -8 8 40
+  z -2 2 30
+  function { 2*cos(x)*cos(y)*exp((-x*x-y*y)*0.03) - z }
+}
+
+rule start : transform {
+  fxy{B 0.4 R 0.6 G 0.2 rx -45}
+}
+
+rule camera{
+  FRAME{z -22}
+  camera{}
+}
+
+rule transform{
+  FRAME{}
+  transform{ry 2 rx 0.7}
+}

@@ -1,0 +1,44 @@
+startshape START
+linerule LINERULE
+camerarule CAMERARULE
+duration 60
+
+@macro SPHERE_LOD(SIZE,RES)
+isosurface SPHERE(RES) {
+  xyz -1 1 (RES)
+  function {1.0 - (x*x+y*y+z*z)}
+}
+rule SPHERE (SIZE) {
+  SPHERE(RES) {}
+}
+@endmacro
+
+@expand SPHERE_LOD(0.1,2)
+@expand SPHERE_LOD(0.2,3)
+@expand SPHERE_LOD(0.4,4)
+@expand SPHERE_LOD(0.9,5)
+@expand SPHERE_LOD(1.0,6)
+selector SPHERE scale
+
+rule CAMERARULE {
+  FRAME{rx -90 z -90}
+}
+
+rule LINERULE {
+  6/6*{rz 360} VERTEX{x 1}
+}
+
+rule START:transform{
+  60*{rz 15 z 1 R 0.01} X{z -30 rx 90}
+}
+
+rule X{
+  SPHERE{z -5.0 G 0.1 B 0.4}
+  SPHERE{z 5.0 R 0.2 G 0.3}
+  MOVETO{z -5.0 s 0.25}
+  LINETO{z 5.0 s 0.25 R 0.5 B 0.5}
+}
+rule transform{
+  FRAME{}
+  transform{rz 3}
+}

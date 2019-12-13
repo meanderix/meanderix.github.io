@@ -1,0 +1,53 @@
+uniform lightPos 0 0 -400
+uniform specColor 1 1 1
+uniform phongPower 20
+
+startshape START
+duration 60
+
+linerule LINERULE
+camerarule CAMERARULE
+
+angle orbits
+background 1 1 1
+
+
+isosurface SPHERE {
+  xyz -1 1 6
+  function {1.0 - (x*x+y*y+z*z)}
+}
+
+
+rule LINERULE {
+  10/10*[rz 1] VERTEX{x 0.07 R 0.9 G 0.9 B 0.9}
+}
+rule CAMERARULE {
+  FRAME{z -20}
+  CAMERARULE {}
+}
+
+
+rule LEG {
+	SPHERE{s 0.25}
+  MOVETO{rx 0.25 fz}
+  LINETO{rx 0.25 fz z 2.428571429}
+	1/6*{ry 1} LINETO{}
+	1/6*{ry 1} LINETO{z 1}
+}
+rule CARBON {
+  NEWLINE{}
+  6/6*[] \ LEG{} \
+  MOVETO{}
+}
+rule LAYER {
+  5*{ry 0.3333 x 1.732050808 ry -0.3333} 5*{x 1.732050808} CARBON{}
+}
+
+rule START : TRANSFORM {
+  2*[y 2.428571429 z 1] LAYER{}
+}
+
+rule TRANSFORM {
+  FRAME{}
+  TRANSFORM{ry 0.01 rx 0.007 rz 0.003}
+}

@@ -1,0 +1,52 @@
+// @presets A B C
+// @param int p 2 1 10
+// @param int q 7 1 10
+
+uniform lightPos 0 0 -400
+uniform specColor 1 1 1
+uniform phongPower 40
+
+startshape START
+minsize 0.0015
+maxiter 5000
+duration 60
+
+linerule LINERULE
+camerarule CAMERARULE
+background 0.2 0.2 0.2
+
+normal 0 1 0
+angle orbits
+
+
+rule LINERULE {
+  12/12*[rz -1] VERTEX{y 1.5}
+}
+
+rule START : transform {
+  NEWLINE{}
+  torusknot{}
+}
+
+rule CAMERARULE {
+  FRAME{z -20}
+  CAMERARULE {}
+}
+
+rule torusknot * axis : spiral {
+  LINETO{s 0.5}
+}
+
+rule axis {
+  1000/1000*[rz 2] FRAME{x 4 R 0.3 G 0.5 B 0.8}
+}
+
+rule spiral {
+  1000/1000*[ry 5] FRAME{x 2}
+}
+
+// animation frames
+rule transform{
+  FRAME{}
+  transform{ry 0.01 rx 0.007 rz 0.003}
+}

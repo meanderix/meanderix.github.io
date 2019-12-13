@@ -1,0 +1,60 @@
+uniform lightPos 0 -500 -400
+uniform specColor 1 1 1
+uniform phongPower 20
+
+startshape START
+minsize 0.015
+duration 60
+
+background 1 1 1 1
+
+linerule LINERULE
+camerarule CAMERARULE
+
+normal 0 0 1
+angle orbits
+
+
+// helper functions
+
+isosurface SPHERE {
+  xyz -1 1 6
+  function {1.0 - (x*x+y*y+z*z)}
+}
+
+rule CAMERARULE {
+  FRAME{z -35}
+  CAMERARULE {}
+}
+
+rule LINERULE {
+  16/16*[rx 1] VERTEX{z 0.25}
+}
+
+rule HLINE {
+  LINETO{G 0.8 R 0.6}
+  SPHERE{s 0.7 G 0.4 R 0.8 B 0.1}
+}
+
+rule TRANSFORM {
+  FRAME{}
+  TRANSFORM{ry 1d rx 0.7d rz 0.3d}
+}
+
+// definition
+
+// the following formula is used for computing angles:
+// a = 4*r/(3+sqrt(5))
+// r = 1          =>  a = 4/(3+sqrt(5))           = .7639320224
+// r = 1/sqrt(3)  =>  a = 4/(sqrt(3)*(3+sqrt(5))) = .4410563588
+
+rule START : TRANSFORM {
+  truncated_icosahedron{}
+}
+
+rule truncated_icosahedron {
+  5/5*{rx 1} 2/2*{ry 1} 1*{ry -.2376862591} 2*{ry .3838602364} {
+    NEWLINE{}
+    6/6*[rz 1] HLINE{rx 0.4410563588t z 10}
+  }
+}

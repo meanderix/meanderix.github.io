@@ -1,0 +1,44 @@
+minsize 0.0015
+duration 60
+
+maxiter 2000
+background 1 1 0.9 1
+center
+
+camerarule CAMERARULE
+
+normal 1 0 0
+angle orbits
+
+rule CAMERARULE {
+  FRAME{z -4}
+  CAMERARULE {}
+}
+
+startshape START
+linerule LINERULE
+
+rule LINERULE {
+  5/5*[rz 1] VERTEX{x 0.7}
+}
+
+rule START{
+  NEWLINE{}
+  ring{s 2 R 1.2 G 0.7 B 0.3}
+}
+
+rule ring * zpath : ypath : xpath {
+  ALINETO{z 0.2 s 0.1}
+}
+
+rule zpath {
+  1000/1000*[rz 18] FRAME{}
+}
+
+rule ypath {
+  1000/1000*[ry 16] FRAME{}
+}
+
+rule xpath {
+  1000/1000*[rx 5] FRAME{}
+}
