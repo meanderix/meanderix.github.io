@@ -157,7 +157,6 @@ select,button:focus {outline:0;}
   padding: 10px;
   position: absolute;
   top: 0;
-  right: 0;
   z-index: 1;
 }
 
@@ -188,11 +187,4 @@ label > input {
   border-style: none;
   font-size: 12px;
   font-family: sans-serif;
-}
-
-.view {
-  width: 100%;
-  left: 0; 
-  right: 0; 
-  position: relative"
 }
