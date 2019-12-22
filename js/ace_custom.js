@@ -40,7 +40,7 @@ define('ace/mode/custom_highlight_rules', [], function(require, exports, module)
             {token: 'punctuation.definition.comment', regex: '/\\*',
               push: [{
                     token: 'punctuation.definition.comment',
-                    regex: '/*\\)',
+                    regex: '/*\\/',
                     next: 'pop'
                 },
                 { defaultToken: 'comment.block.one' }
