@@ -12,6 +12,12 @@ html, body {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: row;
+}
+@media screen and (max-width: 767px) {
+  .container {
+    flex-direction: column;
+  }
 }
 
 .flex-col {
@@ -37,6 +43,7 @@ html, body {
   width: 100%;
   height: 100%;
   position: relative;
+  z-index: 2;
 }
 
 .header {
@@ -48,6 +55,7 @@ html, body {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 2;
 }
 
 select {
@@ -58,7 +66,6 @@ select {
   color: #444;
   line-height: 1.0;
   padding: .6em 1.4em .5em .8em;
-  width: 244px;
   box-sizing: border-box;
   border: 1px solid #aaa;
   box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
@@ -77,7 +84,6 @@ select {
 .header select {
   float: left;
   margin-right: 6px;
-  width: 200px;
 }
 
 .buttons {
@@ -92,8 +98,7 @@ select {
   font-size: 12px;
   color: #fff;
   background-color: #666;
-  /* background: linear-gradient(to bottom,  #888 0%,#666 25%,#444 75%, #222 100%); */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  -webkit-transition: .2s;
   transition: background-color .2s;
   margin: 1px;
 }
@@ -102,37 +107,24 @@ select {
 }
 
 #btn-recompile {
-  /* color: #399; */
   float: right;
-}
-#btn-play {
-  /* color: #3f9; */
 }
 #btn-pause {
   display: none;
 }
-/*
-#btn-stop {
-  color: #933;
-}
-#btn-editor {
-  color: #666;
-}
-*/
 select,button:focus {outline:0;}
 
-/* The slider itself */
 .slider {
   position: relative;
   margin: 10px;
-  -webkit-appearance: none;  /* Override default CSS styles */
+  -webkit-appearance: none;
   appearance: none;
-  width: 100%; /* Full-width */
-  height: 7px; /* Specified height */
-  background: #666; /* Grey background */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  width: 100%;
+  height: 7px;
+  background: #666;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
   transition: opacity .2s;
   border-radius: 4px;
 }
@@ -161,9 +153,12 @@ select,button:focus {outline:0;}
 
 #presets-container {
   max-width: 220px;
-  background-color: rgb(47, 49, 41);
+  background-color: rgba(47, 49, 41, 0.9);
   padding: 10px;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }
 
 label {
@@ -180,6 +175,7 @@ label {
 #presets-container > * {
   margin: auto;
 }
+
 #presets-container > select {
   width: 100%;
 }
@@ -194,3 +190,9 @@ label > input {
   font-family: sans-serif;
 }
 
+.view {
+  width: 100%;
+  left: 0; 
+  right: 0; 
+  position: relative"
+}

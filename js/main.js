@@ -129,7 +129,6 @@ function buildPresets() {
   parent.innerHTML = '';
   if (Object.keys(params).length === 0) {   
     parent.style.display = 'none';
-    window.dispatchEvent(new Event('resize'));
     return;
   }
   parent.style.display = 'block';
