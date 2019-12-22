@@ -1,43 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/skeleton.css">
-    <link rel="stylesheet" href="/css/main.css">
-
-<title>ACE in Action</title>
-<style type="text/css" media="screen">
-    #editor { 
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/main.css">   
+  <script src="js/modeler.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+  <title>modeler.js</title>
 </head>
 <body>
-
-<div class="section hero">
   <div class="container">
-    <div class="row">
-      <div class="one-half column">
-      </div>
-      <div class="one-half column phones">
-            <div id="editor">function foo(items) {
-                    var x = "All this is syntax highlighted";
-                    return x;
-                }</div>
-                      </div>
+    <div class="flex-col">
+      <div id="modeler"></div>
+      <div class="header">
+        <select id="src"></select>
+        <div class="buttons">
+          <button class="btn" id="btn-play"><i class="fa fa-play"></i></button>
+          <button class="btn" id="btn-pause"><i class="fa fa-pause"></i></button>
+          <input type="range" min="1" max="100" value="50" class="slider" id="progress">
+          <button class="btn" id="btn-recompile"><i class="fa fa-sync-alt"></i></b  utton>
+          <button class="btn" id="btn-presets"><i class="fa fa-sliders-h"></i></button>
+          <button class="btn" id="btn-editor"><i class="fa fa-edit"></i></button>
+        </div>
+      </div>    
     </div>
-  </div>
-</div>    
-    
-<script src="https://pagecdn.io/lib/ace/1.4.6/ace.js" type="text/javascript" charset="utf-8" integrity="sha256-CVkji/u32aj2TeC+D13f7scFSIfphw2pmu4LaKWMSY8=" crossorigin="anonymous"></script>
-<script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/javascript");
-</script>
+    <div class="flex-col" id="presets-container">
+    </div>
+    <div class="flex-col" id="editor-container">
+      <div id="editor"></div>
+    </div>
+  </div>    
+  <script src="https://pagecdn.io/lib/ace/1.4.6/ace.js" type="text/javascript" charset="utf-8" integrity="sha256-CVkji/u32aj2TeC+D13f7scFSIfphw2pmu4LaKWMSY8=" crossorigin="anonymous"></script>
+  <script src="js/ace_custom.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
