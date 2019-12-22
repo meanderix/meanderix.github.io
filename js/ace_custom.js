@@ -37,7 +37,16 @@ define('ace/mode/custom_highlight_rules', [], function(require, exports, module)
     this.$rules = {
         "start": [            
             {token : "punctuation.definition.comment", regex: "//.*$"},            
-            {token : "punctuation.definition.comment", regex: "/\*.*\*/"},            
+            {token : "punctuation.definition.comment", regex: "/\*.*\*/"}, 
+            {token: 'punctuation.definition.comment', regex: '/\\*',
+              push: [{
+                    token: 'punctuation.definition.comment',
+                    regex: '/*\\)',
+                    next: 'pop'
+                },
+                { defaultToken: 'comment.block.one' }
+              ]               
+            },        
             {token : "string",  regex : /".+"/},
             {token : "paren.lparen", regex : "[\\[({]"},
             {token : "paren.rparen", regex : "[\\])}]"},
