@@ -20,7 +20,7 @@ uniform vec3 ambientColor;
 const float two_pi = 6.2831853071;
 const float sqrt_1_3 = 0.57735026918;
 
-vec3 rotateHue(vec3 rgb, float hue) {
+vec3 rotateHue(vec3 rgb, float hue, float lightness) {
   float cosA = cos(hue * two_pi);
   float sinA = sin(hue * two_pi);
   vec3 neo = vec3(
@@ -29,9 +29,9 @@ vec3 rotateHue(vec3 rgb, float hue) {
     (1.0 - cosA) / 3.0 + sqrt_1_3 * sinA
   );
   return vec3(
-    rgb.r * neo[0] + rgb.g * neo[1] + rgb.b * neo[2],
-    rgb.r * neo[2] + rgb.g * neo[0] + rgb.b * neo[1],
-    rgb.r * neo[1] + rgb.g * neo[2] + rgb.b * neo[0]
+    rgb.r * neo[0] + rgb.g * neo[1] + rgb.b * neo[2] + lightness,
+    rgb.r * neo[2] + rgb.g * neo[0] + rgb.b * neo[1] + lightness,
+    rgb.r * neo[1] + rgb.g * neo[2] + rgb.b * neo[0] + lightness
   );
 }
 
@@ -56,7 +56,7 @@ void main() {
       reflectedLightColor += 0.5 * lambertian * color.rgb + specular * lightColor[i];
     }
   }  
-  reflectedLightColor = rotateHue(reflectedLightColor, weight.a);
+  reflectedLightColor = rotateHue(reflectedLightColor, weight.z, weight.w);
   gl_FragColor = vec4(ambientColor + reflectedLightColor, 1.0 + color.a);    
 }
 @endshader
@@ -282,19 +282,6 @@ btn_pause.onclick = function() {
   btn_play.style.display = 'block';
 }  
 
-/*
-function download(filename, url) {
-  var save = document.createElement('a');
-  save.download = filename;
-  save.href = url;
-  var event = document.createEvent("Event");
-  event.initEvent("click");
-  save.dispatchEvent(event);
-}
-document.getElementById("btn-download").onclick = function() {
-  download('model.stl', view.exportSTL());
-}
-*/  
 function toggleContainer(name) {
   var x = document.getElementById(name);
   if (x.style.display === "none") {
@@ -354,4 +341,18 @@ req2.onload = function() {
 req2.send();
 select.onchange = function() {
   loadFromURL(this.value);
+}
+
+function download(filename, data) {
+  var blob = new Blob([data], { type: 'application/octet-stream' });
+  var a = document.createElement('a');
+  a.download = filename;
+  a.href = URL.createObjectURL(blob);
+  document.body.appendChild(a);
+  a.style = 'display: none';  
+  a.click();
+  a.remove();
+}
+document.getElementById("btn-download").onclick = function() {
+  download(select.options[select.selectedIndex].text + '.stl', view.exportSTL());
 }
