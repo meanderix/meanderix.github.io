@@ -322,7 +322,7 @@ function loadFromURL(url) {
 // set up select box
 var select = document.getElementById("src"); 
 var req2 = new XMLHttpRequest();
-req2.open('GET', 'https://api.github.com/repos/meanderix/modeler/contents/models');
+req2.open('GET', 'https://api.github.com/repos/meanderix/modeler.js/contents/models');
 req2.onload = function() {
   if (this.readyState === XMLHttpRequest.DONE) {
     var data = JSON.parse(this.response);
